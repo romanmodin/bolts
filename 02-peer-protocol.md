@@ -848,6 +848,8 @@ The sending node:
         - MUST NOT send `channel_type` with the `option_scid_alias` bit set.
       - if it follows the BLAKE2b proof of work rules:
         - MUST include `option_unified_sigs`.
+        - MUST NOT combine `option_unified_sigs` with `option_simple_taproot`
+          or `option_simple_taproot_staging` (see [BOLT #3](03-transactions.md#unified-signature-hash)).
 
 The sending node SHOULD:
   - set `to_self_delay` sufficient to ensure the sender can irreversibly spend a commitment transaction output, in case of misbehavior by the receiver.
@@ -898,6 +900,9 @@ are not valid secp256k1 pubkeys in compressed format.
   - the `channel_type` is not suitable.
   - the `channel_type` includes `option_zeroconf` and it does not trust the sender to open an unconfirmed channel.
   - it follows the BLAKE2b proof of work rules and the `channel_type` does not include `option_unified_sigs`.
+  - it follows the BLAKE2b proof of work rules and the `channel_type`
+    combines `option_unified_sigs` with `option_simple_taproot` or
+    `option_simple_taproot_staging`.
 
 The receiving node MUST NOT:
   - consider funds received, using `push_msat`, to be received until the funding transaction has reached sufficient depth.

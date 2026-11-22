@@ -578,6 +578,8 @@ The `open_channel` and `accept_channel` messages are extended to specify a new
 TLV type that houses the `musig2` public nonces.
 
 We add `option_simple_taproot` to the set of defined channel types.
+For the restriction on combining either simple taproot channel type with
+`option_unified_sigs`, see [BOLT #3](03-transactions.md#unified-signature-hash).
 
 #### `open_channel` Extensions
 
