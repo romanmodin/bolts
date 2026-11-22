@@ -420,6 +420,9 @@ A node signing for a channel with `option_unified_sigs`:
     be made long after the channel closes.
   - MUST NOT open such a channel with a peer that does not set the bit: the
     two would sign different digests and neither could close the channel.
+  - MUST NOT propose or accept a `channel_type` that combines
+    `option_unified_sigs` with `option_simple_taproot` or
+    `option_simple_taproot_staging`.
   - SHOULD sign every input of the funding transaction that it signs itself
     with `0x21`: those inputs spend outputs that a verifier without these rules
     can see, and this is what keeps a copy of the funding output from existing
@@ -427,6 +430,16 @@ A node signing for a channel with `option_unified_sigs`:
     type it would otherwise use; the cost, described in
     [BOLT #2](02-peer-protocol.md#the-tx_signatures-message), falls on the
     signer alone.
+
+The [simple taproot channel types](bolt-simple-taproot.md) have no signing
+procedure for `option_unified_sigs`. A MuSig2 partial signature exchanged by
+the peers has no hash type field. Opting in would require the peers to sign
+the unified digest and append the hash type byte to the final signature in
+the witness. The peer's signature on a second-stage HTLC transaction already
+uses `SIGHASH_SINGLE|SIGHASH_ANYONECANPAY`. Since
+[BOLT #2](02-peer-protocol.md#the-open_channel-message) requires
+`option_unified_sigs` on new channels after activation, nodes following the
+BLAKE2b rules cannot open either simple taproot channel type.
 
 ### Spends only this node signs
 
