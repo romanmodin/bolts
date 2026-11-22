@@ -377,8 +377,13 @@ https://github.com/rustyrussell/lightning-payencode
 
 # Examples
 
-Machine-readable invoice test vectors for all examples below are provided in
-[invoice-test.json](bolt11/invoice-test.json).
+[invoice-test.json](bolt11/invoice-test.json) contains the upstream examples.
+Their `valid` field is evaluated under the upstream rules. A payer following
+the BLAKE2b rules also checks `option_blake2b` before attempting a payment.
+[invoice-blake2b-test.json](bolt11/invoice-blake2b-test.json) contains two
+invoices signed with the example key below. Their signed fields differ only
+in bit 512 of the feature vector. The `passes_blake2b_feature_check` field
+gives the expected result of that check alone.
 
 NB: all the following examples are signed with `priv_key`=`e126f68f7eafcc8b74f54d269fe206be715000f94dac067d1c04a8ca3b2db734`.
 All invoices contain a `payment_secret`=`1111111111111111111111111111111111111111111111111111111111111111` unless otherwise noted.
